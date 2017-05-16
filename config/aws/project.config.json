@@ -1,0 +1,6 @@
+{  
+  "version": 1,
+  "imageCompose": {
+    "pythonCodeLocation": "filetemplate/imagecompose/reTif.py"
+  }
+}

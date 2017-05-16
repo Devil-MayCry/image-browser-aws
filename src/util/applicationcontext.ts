@@ -89,6 +89,9 @@ export class ApplicationContext {
    */
   private isValidConfig_(): boolean {
     this.assertJsonHasOwnProperty_(this.configJson_, "version");
+
+    this.assertJsonHasOwnProperty_(this.configJson_, "imageCompose");
+    this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "pythonCodeLocation");
     return true;
   }
 
@@ -106,7 +109,7 @@ export class ApplicationContext {
     }
 
     switch (nodeEnv) {
-      case NodeEnv.PRODUCTION_SERVER: return "aliyun";
+      case NodeEnv.PRODUCTION_SERVER: return "aws";
       case NodeEnv.LOCAL: return "local";
       case NodeEnv.TEST: return "test";
       case NodeEnv.DEVELOPMENT_SERVER: return "azure";

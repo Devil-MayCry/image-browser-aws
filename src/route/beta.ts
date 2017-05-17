@@ -9,6 +9,7 @@ import * as express from "express";
 import * as timeout from "connect-timeout";
 import * as bodyParser from "body-parser";
 import {errorHandler} from "../middleware/errorhandler";
+import {ImageComposeController} from "../imagecompose/imagecomposecontroller";
 
 
 import {corsAllowAll, haltOnTimedout, BadRequestResponse, ApiError, ErrorResponse} from "sakura-node";
@@ -38,7 +39,7 @@ betaRouter.use(haltOnTimedout);
 // image-browser-awa beta api  (before request)
 // -------------------------------------------------------------------------
 
-betaRouter.put();
+betaRouter.put("/image/code", ImageComposeController.insertImageComposeCodeFromClient);
 
 // -------------------------------------------------------------------------
 // 404

@@ -8,13 +8,15 @@
 import * as express from "express";
 import * as timeout from "connect-timeout";
 import * as bodyParser from "body-parser";
+import * as multer from "multer";
+
+import {corsAllowAll, haltOnTimedout, BadRequestResponse, ApiError, ErrorResponse} from "sakura-node";
+
 import {errorHandler} from "../middleware/errorhandler";
 import {ImageComposeController} from "../imagecompose/imagecomposecontroller";
 
 
-import {corsAllowAll, haltOnTimedout, BadRequestResponse, ApiError, ErrorResponse} from "sakura-node";
-
-let betaRouter: express.Router = express.Router();
+const betaRouter: express.Router = express.Router();
 
 // -------------------------------------------------------------------------
 // Middleware (before request)
@@ -39,7 +41,9 @@ betaRouter.use(haltOnTimedout);
 // image-browser-awa beta api  (before request)
 // -------------------------------------------------------------------------
 
-betaRouter.put("/image/code", ImageComposeController.insertImageComposeCodeFromClient);
+betaRouter.put("/image/calculate_by_dynamic_code", ImageComposeController.insertImageComposeCodeFromClient);
+betaRouter.post("/image/code", ImageComposeController.saveClientOwnPythonCode);
+betaRouter.post("/image/saving_compose_picture", ImageComposeController.uploadComposeImageToSynchronizeToAzure);
 
 // -------------------------------------------------------------------------
 // 404

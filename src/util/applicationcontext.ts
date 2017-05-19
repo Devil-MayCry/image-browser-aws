@@ -85,6 +85,30 @@ export class ApplicationContext {
   }
 
   /**
+   * 返回图片融合python代码的位置
+   */
+  static getOriginWavePictureLocation(): string {
+    const originWavePictureDir: string = require(ApplicationContext.projectConfigPath())["imageCompose"]["originWavePictureDir"];
+    return originWavePictureDir;
+  }
+
+  /**
+   * 返回存储用户自定义图片融合python代码的目录
+   */
+  static getPythonFilesSavingDir(): string {
+    const pythonFileSavingDir: string = require(ApplicationContext.projectConfigPath())["imageCompose"]["pythonFilesSavingDir"];
+    return pythonFileSavingDir;
+  }
+
+  /**
+   * 返回存储用户自定义图片的目录, 系统会自动将该文件夹的图片同步到azure服务器上
+   */
+  static getComposeImageFilesSavingDir(): string {
+    const composeImageFilesSavingDir: string = require(ApplicationContext.projectConfigPath())["imageCompose"]["composeImageFilesSavingDir"];
+    return composeImageFilesSavingDir;
+  }
+
+  /**
    * 校验 project.config.json 是否符合格式
    */
   private isValidConfig_(): boolean {
@@ -92,6 +116,10 @@ export class ApplicationContext {
 
     this.assertJsonHasOwnProperty_(this.configJson_, "imageCompose");
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "pythonCodeLocation");
+    this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "originWavePictureDir");
+    this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "pythonFilesSavingDir");
+    this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "composeImageFilesSavingDir");
+
     return true;
   }
 

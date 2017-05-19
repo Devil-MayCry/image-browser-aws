@@ -5,3 +5,8 @@ built/*
 dist/
 .DS_Store
 tslint.json
+
+# --------- Security ---------
+
+config/local
+config/test

@@ -52,9 +52,9 @@ export class ImageComposeController extends BaseController {
     let validator: Validator = new Validator();
     // TODO(huteng@gagogroup.com): lack of localtion and other info
     const pythonCodeWaitForInsert: string = validator.toStr(req.body["code"], "invalid code");
-    const latitude: number = validator.toNumber(req.body["lat"], "invalid latitude");
-    const longitude: number = validator.toNumber(req.body["lon"], "invalid longitude");
-    const zoom: number = validator.toNumber(req.body["zoom"], "invalid zoom");
+    const latitude: number = validator.toNumber(req.body["x"], "invalid latitude");
+    const longitude: number = validator.toNumber(req.body["y"], "invalid longitude");
+    const zoom: number = validator.toNumber(req.body["z"], "invalid zoom");
 
     const bandArray: string [] = req.body["bands"].substring(1, req.query["bands"].length - 1).split(",");
 

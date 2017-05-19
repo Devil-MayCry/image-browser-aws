@@ -85,6 +85,14 @@ export class ApplicationContext {
   }
 
   /**
+   * Returns base URL by env.
+   */
+  static baseUrl(): string {
+    const baseConfigJson: any = require(ApplicationContext.projectConfigPath())["base"];
+    return baseConfigJson["url"];
+  }
+
+  /**
    * 返回图片融合python代码的位置
    */
   static getOriginWavePictureLocation(): string {

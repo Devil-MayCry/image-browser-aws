@@ -1,0 +1,50 @@
+FORMAT: 1A
+
+# Image Compose
+动态合成图片模块
+
+## 根据用户所选波段和自定义的代码生产图片  [/image/calculate_by_dynamic_code]
+
+### 根据用户所选波段和自定义的代码生产图片 [POST]
+用户提交需要生产的瓦片的x,y,z值，以及算法代码，以及运算的波段，返回得到生产好的图片
+
++ Request
+
+    + Body
+
+            {
+              "x": 22,              // 请求瓦片的 x 值
+              "y": 32,              // 请求瓦片的 x 值
+              "z": 4,               // 请求瓦片的 x 值
+              "code": "hello world",      // 要插入的运行的代码
+              "band": ["B01", "B02", "B03"]      // 参与运算的波段
+            }
+
+## 保存用户自定义代码  [/image/save_code]
+
+### 保存用户插入后的代码，可以供下次使用 [POST]
+将用户自定义的代码插入到模板代码中，保存该代码在服务器上
+
++ Request
+
+    + Body
+
+            {
+              "code": "hello world",       // 用户想要插入的代码片段
+              "fileName": "file_name_1"               // 用户想要保存的代码文件名
+            }
+
+## 保存用户自定义代码  [/image/saving_compose_picture]
+
+### 上传保存生成的图片 [POST]
+将用户想要保存的图片通过前端上传到服务器上
+
++ Request
+
+    + Body
+
+      + Body
+
+              {
+                "uploadfile": file  //(required, file) - 想要上传的图片文件
+              }

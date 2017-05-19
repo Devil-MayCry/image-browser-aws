@@ -42,7 +42,7 @@ betaRouter.use(haltOnTimedout);
 // -------------------------------------------------------------------------
 
 betaRouter.put("/image/calculate_by_dynamic_code", ImageComposeController.insertImageComposeCodeFromClient);
-betaRouter.post("/image/code", ImageComposeController.saveClientOwnPythonCode);
+betaRouter.post("/image/save_code", ImageComposeController.saveClientOwnPythonCode);
 betaRouter.post("/image/saving_compose_picture", ImageComposeController.uploadComposeImageToSynchronizeToAzure);
 
 // -------------------------------------------------------------------------

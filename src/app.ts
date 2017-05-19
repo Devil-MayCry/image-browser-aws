@@ -6,7 +6,12 @@ import * as express from "express";
 const app: express.Application = express();
 
 let betaRouter: express.Router = require("./routes/beta");
+
+// beta route
 app.use("/api/beta", betaRouter);
+
+// show project api docs
+app.use("/docs", require("./apps/doc/docapp"));
 
 app.listen(3000);
 

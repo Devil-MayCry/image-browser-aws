@@ -1,5 +1,6 @@
 // Copyright 2017 huteng (huteng@gagogroup.com). All rights reserved.,
 // Use of this source code is governed a license that can be found in the LICENSE file.
+
 import *as fs from "fs";
 import * as pythonShell from "python-shell";
 
@@ -21,8 +22,7 @@ export class ImageComposeService extends BaseService {
     try {
       let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
       let fileTemplateContent: string = fs.readFileSync(imageComposeCodeFilePath).toString();
-      let newFileContentInString: string = fileTemplateContent.replace(`$[]`, pythonCode);
-
+      let newFileContentInString: string = fileTemplateContent.replace(`[$]`, pythonCode);
       let newScriptFilePath: string = `/tmp/imagecomposecode_${nowTimeStamp}.py`;
 
       fs.writeFileSync(newScriptFilePath, newFileContentInString);
@@ -78,12 +78,13 @@ export class ImageComposeService extends BaseService {
 
     // Insert client own code to produce new code
     let fileTemplateContent: string = fs.readFileSync(imageComposeCodeTemplateFilePath).toString();
-    let newFileContentInString: string = fileTemplateContent.replace(`$[]`, clientOwnPythonCodePart);
+    let newFileContentInString: string = fileTemplateContent.replace(`[$]`, clientOwnPythonCodePart);
 
     // Saving user own code
     let pythonFileSavingDir: string = ApplicationContext.getPythonFilesSavingDir();
     let savingFilePath: string = pythonFileSavingDir + fileName;
-    let stats: fs.Stats = fs.statSync(savingFilePath);
+
+    let stats: boolean = fs.existsSync(savingFilePath);
 
     // if file name is not exist
     if ( ! stats) {

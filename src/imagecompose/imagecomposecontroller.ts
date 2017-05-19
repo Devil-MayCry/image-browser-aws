@@ -10,12 +10,12 @@ import {ApplicationContext} from "../util/applicationcontext";
 
 // specfify the upload compose picture file saving location
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination:  (req, file, cb) => {
     let composeImageFilesSavingDir: string = ApplicationContext.getComposeImageFilesSavingDir();
     cb(null, composeImageFilesSavingDir);
   },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
   }
 });
 

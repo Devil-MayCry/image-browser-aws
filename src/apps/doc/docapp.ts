@@ -17,14 +17,6 @@ const baseUrl: string = ApplicationContext.baseUrl();
 const app: express.Application = express();
 
 const docsDir: string = path.resolve(`${__dirname}/../../../public/docs`);
-app.use("/references", express.static(docsDir));
-
-const data: any = {
-  apiRefUrl: `${baseUrl}/docs/references`
-};
-
-app.get("/", (req: express.Request, res: express.Response) => {
-  res.render("index", data);
-});
+app.use("/", express.static(docsDir));
 
 module.exports = app;

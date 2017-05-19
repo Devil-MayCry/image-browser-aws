@@ -20,6 +20,8 @@ FORMAT: 1A
               "band": ["B01", "B02", "B03"]      // 参与运算的波段
             }
 
++ Response 200 (application/json)
+
 ## 保存用户自定义代码  [/image/save_code]
 
 ### 保存用户插入后的代码，可以供下次使用 [POST]
@@ -34,6 +36,9 @@ FORMAT: 1A
               "fileName": "file_name_1"               // 用户想要保存的代码文件名
             }
 
++ Response 200 (application/json)
+
+
 ## 保存用户自定义代码  [/image/saving_compose_picture]
 
 ### 上传保存生成的图片 [POST]
@@ -41,10 +46,11 @@ FORMAT: 1A
 
 + Request
 
-    + Body
-
       + Body
 
               {
                 "uploadfile": file  //(required, file) - 想要上传的图片文件
               }
+
++ Response 200 (application/json)
+

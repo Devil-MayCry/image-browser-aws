@@ -72,8 +72,9 @@ export class ImageComposeController extends BaseController {
       // Take the user new code part and insert into template to make a new algorithm
       let newScriptFilePath: string = await ImageComposeService.insertImageComposeCodeFromClient(pythonCodeWaitForInsert);
 
-      // Use the gegograph info the get origin wave picture name, and get it from amzone s3 bucket, save to local for temp
+      // Use the gegograph info to get the tiles name. The tiles is sliced and saved in AWS.
       let originPictureFilePathArray: string[] = await ImageComposeService.getOriginWavePictureLocation(latitude, longitude, zoom, bandArray);
+
       // // Get origin picture from amzone s3 bucket, save to local for temp
       // let originPictureFilePathArray: string[] = await ImageComposeService.downloadOriginPicturesForCalculate(originPictureNameArray);
 

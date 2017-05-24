@@ -10,27 +10,39 @@ import {BaseService} from "../base/baseservice";
 import {ApplicationContext} from "../util/applicationcontext";
 
 export class ImageComposeService extends BaseService {
-  static async insertImageComposeCodeFromClient(pythonCode: string): Promise<string> {
-    let imageComposeCodeFilePath: string = ApplicationContext.getImageComposeCodeLocation();
-    try {
-      // If template file is exist
-      fs.accessSync(imageComposeCodeFilePath);
-    } catch (err) {
-      throw new Error ("TEMPLATE_FILE_NO_EXIST");
-    }
 
-    try {
+  /**
+   * Use the client code part to export new image comose code, and save it for temp
+   *
+   * @static
+   * @param {string} pythonCode
+   * @returns {Promise<timestamp>}
+   *
+   * @memberOf ImageComposeService
+   */
+  static async insertImageComposeCodeAndSavingForTemp(pythonCode: string): Promise<timestamp> {
+    return new Promise<timestamp>((resolve, reject) => {
       let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
-      let fileTemplateContent: string = fs.readFileSync(imageComposeCodeFilePath).toString();
-      let newFileContentInString: string = fileTemplateContent.replace(`[$]`, pythonCode);
-      let newScriptFilePath: string = `/tmp/imagecomposecode_${nowTimeStamp}.py`;
+      let imageComposeCodeFilePath: string = ApplicationContext.getImageComposeCodeLocation();
+      // If template file is exist
+      fs.stat(imageComposeCodeFilePath, (err: Error, stats: fs.Stats) => {
+        if (err) {
+          reject(new Error ("TEMPLATE_FILE_NO_EXIST"));
+        } else {
+          let fileTemplateContent: string = fs.readFileSync(imageComposeCodeFilePath).toString();
+          let newFileContentInString: string = fileTemplateContent.replace(`[$]`, pythonCode);
+          let newScriptFilePath: string = `/tmp/imagecomposecode_${nowTimeStamp}.py`;
 
-      fs.writeFileSync(newScriptFilePath, newFileContentInString);
-
-      return newScriptFilePath;
-    } catch (err) {
-      throw new Error ("EXPORT_FILE_FAIL");
-    }
+          fs.writeFile(newScriptFilePath, newFileContentInString, (err: Error) => {
+            if (err) {
+              reject(new Error ("EXPORT_FILE_FAIL"));
+            } else {
+              resolve(nowTimeStamp);
+            }
+          });
+        }
+      });
+    });
   }
 
   /**
@@ -43,12 +55,14 @@ export class ImageComposeService extends BaseService {
    *
    * @memberOf ImageComposeService
    */
-  static async calcualteAndExportNewPicByPython(pythonCodePath: string,
+  static async calcualteAndExportNewPicByPython(pythonCodeId: string,
                                                 pictureFilePathArray: string[]): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       let options: json = {
         args: [...pictureFilePathArray]
       };
+
+      let pythonCodePath: string = `/tmp/imagecomposecode_${pythonCodeId}.py`;
 
       let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
       // TODO(huteng@gagogroup.com): or JPG?

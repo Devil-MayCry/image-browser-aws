@@ -44,19 +44,40 @@ export class ImageComposeController extends BaseController {
   }
 
   /**
-   * users upload their own algorithm code (python), use the code to create new pic and return to front
-   * 
+   * users upload their own algorithm code (python), save it in /tmp for later compose image
+   *
    * @memberOf ImageComposeController
    */
-  static async insertImageComposeCodeFromClient(req: Request, res: Response, next: NextFunction): Promise<void> {
-    let validator: Validator = new Validator();
-    // TODO(huteng@gagogroup.com): lack of localtion and other info
-    const pythonCodeWaitForInsert: string = validator.toStr(req.body["code"], "invalid code");
-    const latitude: number = validator.toNumber(req.body["x"], "invalid latitude");
-    const longitude: number = validator.toNumber(req.body["y"], "invalid longitude");
-    const zoom: number = validator.toNumber(req.body["z"], "invalid zoom");
+  static async addImageComposeCodeFromClient(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const pythonCode: string = req.body["code"];
 
-    const bandArray: string [] = req.body["bands"].substring(1, req.query["bands"].length - 1).split(",");
+    // Take the user new code part and insert into template to make a new algorithm, return the timestamp as code id
+    let nowTimeStamp: timestamp = await ImageComposeService.insertImageComposeCodeAndSavingForTemp(pythonCode);
+    res.json(new SuccessResponse({
+      pythonCodeId:  nowTimeStamp
+    }));
+  }
+
+  /**
+   * Use the last request python code(saving for temp) to compose new image, return to front
+   *
+   * @static
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   * @returns {Promise<void>}
+   *
+   * @memberOf ImageComposeController
+   */
+  static async getComposeMapImage(req: Request, res: Response, next: NextFunction): Promise<void> {
+    let validator: Validator = new Validator();
+
+    const tempPythonCodeId: string = validator.toStr(req.query["codeId"], "invalid codeId");
+    const latitude: number = validator.toNumber(req.query["x"], "invalid latitude");
+    const longitude: number = validator.toNumber(req.query["y"], "invalid longitude");
+    const zoom: number = validator.toNumber(req.query["z"], "invalid zoom");
+
+    const bandArray: string [] = req.query["bands"].substring(1, req.query["bands"].length - 1).split(",");
 
     // const originPictureNameArray: string [] = req.body["originPictureNameArray"].substring(1, req.query["originPictureNameArray"].length - 1).split(",");
 
@@ -66,20 +87,12 @@ export class ImageComposeController extends BaseController {
     }
 
     try {
-      // Use now timestamp to tag and distinguish new code
-      let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
-
-      // Take the user new code part and insert into template to make a new algorithm
-      let newScriptFilePath: string = await ImageComposeService.insertImageComposeCodeFromClient(pythonCodeWaitForInsert);
 
       // Use the gegograph info to get the tiles name. The tiles is sliced and saved in AWS.
       let originPictureFilePathArray: string[] = await ImageComposeService.getOriginWavePictureLocation(latitude, longitude, zoom, bandArray);
 
-      // // Get origin picture from amzone s3 bucket, save to local for temp
-      // let originPictureFilePathArray: string[] = await ImageComposeService.downloadOriginPicturesForCalculate(originPictureNameArray);
-
       // Use the origin picture and new script to make new picture, return to front
-      let exportPictureFilePath = await ImageComposeService.calcualteAndExportNewPicByPython(newScriptFilePath, originPictureFilePathArray);
+      let exportPictureFilePath = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
       res.sendFile(exportPictureFilePath);
     } catch (err) {
       if (err.message === "TEMPLATE_FILE_NO_EXIST") {

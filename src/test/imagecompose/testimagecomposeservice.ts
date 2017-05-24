@@ -13,8 +13,8 @@ describe("ImageComposeService", () => {
   describe("test calcualte and export a new picture By Python", () => {
     it("test insert user's part of code into python template file", (done: MochaDone) => {
       let userInsertCode: string = `print("hello world")`;
-      ImageComposeService.insertImageComposeCodeFromClient(userInsertCode).then((filePath: string) => {
-        let fileTemplateContent: string = fs.readFileSync(filePath).toString();
+      ImageComposeService.insertImageComposeCodeAndSavingForTemp(userInsertCode).then((codeId: timestamp) => {
+        let fileTemplateContent: string = fs.readFileSync(`/tmp/imagecomposecode_${codeId}.py`).toString();
         chai.expect(fileTemplateContent).to.equal(`print("hello world")\nprint("end")`);
         done();
       });

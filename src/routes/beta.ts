@@ -41,7 +41,7 @@ betaRouter.use(haltOnTimedout);
 // image-browser-awa beta api  (before request)
 // -------------------------------------------------------------------------
 
-betaRouter.get("/image/calculate_by_dynamic_code", ImageComposeController.getComposeMapImage);
+betaRouter.get("/image/upload_dynamic_code_temp", ImageComposeController.getComposeMapImage);
 betaRouter.post("/image/calculate_by_dynamic_code", ImageComposeController.addImageComposeCodeFromClient);
 betaRouter.post("/image/save_code", ImageComposeController.saveClientOwnPythonCode);
 betaRouter.post("/image/saving_compose_picture", ImageComposeController.uploadComposeImageToSynchronizeToAzure);

@@ -92,7 +92,7 @@ export class ImageComposeController extends BaseController {
       let originPictureFilePathArray: string[] = await ImageComposeService.getOriginWavePictureLocation(latitude, longitude, zoom, bandArray);
 
       // Use the origin picture and new script to make new picture, return to front
-      let exportPictureFilePath = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
+      let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
       res.sendFile(exportPictureFilePath);
     } catch (err) {
       if (err.message === "TEMPLATE_FILE_NO_EXIST") {

@@ -65,16 +65,19 @@ export class ImageComposeService extends BaseService {
       let pythonCodePath: string = `/tmp/imagecomposecode_${pythonCodeId}.py`;
 
       let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
-      // TODO(huteng@gagogroup.com): or JPG?
+
       let exportPicturePath: string = `/tmp/exportNewPicture_${nowTimeStamp}.jp2`;
       pythonShell.run(pythonCodePath, options,  (err: Error) => {
-        if (err) throw new Error("PYTHON_RUN_ERROR");
-        resolve(exportPicturePath);
+        if (err){
+          reject(new Error("PYTHON_RUN_ERROR"));
+        } else {
+          resolve(exportPicturePath);
+        }
       });
     });
   }
 
-  static async getOriginWavePictureLocation(platitude: number, longitude: number, zoom: number, bandArray: string[]): Promise<string[]> {
+  static async getOriginWavePictureLocation(x: number, y: number, z: number, bandArray: string[]): Promise<string[]> {
     return [];
   }
 

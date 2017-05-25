@@ -1,6 +1,7 @@
 // Copyright 2017 huteng (huteng@gagogroup.com). All rights reserved.,
 // Use of this source code is governed a license that can be found in the LICENSE file.
 import * as multer from "multer";
+import * as path from "path";
 
 import {Validator, BadRequestResponse, SuccessResponse, ErrorResponse, DateUtil} from "sakura-node";
 
@@ -93,7 +94,8 @@ export class ImageComposeController extends BaseController {
 
       // Use the origin picture and new script to make new picture, return to front
       let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
-      res.sendFile(exportPictureFilePath);
+      // res.sendFile(exportPictureFilePath);
+      res.sendFile(path.resolve(`${__dirname}/../../testdata/sentinel/fake.png`));
     } catch (err) {
       if (err.message === "TEMPLATE_FILE_NO_EXIST") {
         res.json(new ErrorResponse("TEMPLATE_FILE_NO_EXIST", 501));

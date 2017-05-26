@@ -5,6 +5,9 @@ export NODE_ENV=production
 
 # delpoy by pm2-docker
 cd /usr/local/image-browser-aws/
+
+npm install --registry=http://npmjs.gagogroup.cn
+
 pm2-docker start "dist/app.js" -i 0
 
 echo "end delpoying"

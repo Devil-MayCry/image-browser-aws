@@ -4,7 +4,8 @@
     "url": "http://localhost:3000"
   },
   "imageCompose": {
-    "pythonCodeLocation": "filetemplate/imagecompose/reTif.py",
+    "pythonCodeLocation": "testdata/pythoncode/template.py",
+    "originPythonCodeLocation": "testdata/pythoncode/template.py",
     "originWavePictureDir": "/home/ec2-user/s3-sentinel-2/tiles/",
     "pythonFilesSavingDir": "/home/ec2-user/client-python-code/",
     "composeImageFilesSavingDir": "/home/ec2-user/client-python-code/"

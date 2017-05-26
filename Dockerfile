@@ -1,8 +1,5 @@
 FROM docker.gagogroup.cn:5000/cent7:node
 
-# Mount S3 dir
-VOLUME ["/home/ec2-user/s3-gagobucket"]
-
 # Add all files to /usr/local/image-browser-aws/
 WORKDIR /usr/local/
 RUN mkdir image-browser-aws/

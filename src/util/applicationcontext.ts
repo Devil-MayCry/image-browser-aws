@@ -117,6 +117,20 @@ export class ApplicationContext {
   }
 
   /**
+   * node_modules 路径
+   */
+  private static nodeModulesPath_(): string {
+    return path.resolve(`${__dirname}/../../node_modules`);
+  }
+
+  /**
+   * imageBrowser web dist path
+   */
+  static getImageBrowserDistPath(): string {
+    return `${ApplicationContext.nodeModulesPath_()}/image-browser/dist`;
+  }
+
+  /**
    * 校验 project.config.json 是否符合格式
    */
   private isValidConfig_(): boolean {

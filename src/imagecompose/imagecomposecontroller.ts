@@ -53,10 +53,18 @@ export class ImageComposeController extends BaseController {
     const pythonCode: string = req.body["code"];
 
     // Take the user new code part and insert into template to make a new algorithm, return the timestamp as code id
-    let nowTimeStamp: timestamp = await ImageComposeService.insertImageComposeCodeAndSavingForTemp(pythonCode);
-    res.json(new SuccessResponse({
-      pythonCodeId:  nowTimeStamp
-    }));
+    try {
+      let nowTimeStamp: timestamp = await ImageComposeService.insertImageComposeCodeAndSavingForTemp(pythonCode);
+      res.json(new SuccessResponse({
+        pythonCodeId:  nowTimeStamp
+      }));
+    } catch (err) {
+      if (err.message === "TEMPLATE_FILE_NO_EXIST") {
+        res.json(new ErrorResponse("TEMPLATE_FILE_NO_EXIST", 501));
+      }else {
+        next(err);
+      }
+    }
   }
 
   /**
@@ -73,7 +81,8 @@ export class ImageComposeController extends BaseController {
   static async getComposeMapImage(req: Request, res: Response, next: NextFunction): Promise<void> {
     let validator: Validator = new Validator();
 
-    const tempPythonCodeId: string = validator.toStr(req.query["codeId"], "invalid codeId");
+    const tempPythonCodeId: optional<string> = req.query["codeId"];
+
     const latitude: number = validator.toNumber(req.query["x"], "invalid latitude");
     const longitude: number = validator.toNumber(req.query["y"], "invalid longitude");
     const zoom: number = validator.toNumber(req.query["z"], "invalid zoom");
@@ -97,9 +106,7 @@ export class ImageComposeController extends BaseController {
       // res.sendFile(exportPictureFilePath);
       res.sendFile(path.resolve(`${__dirname}/../../testdata/sentinel/fake.png`));
     } catch (err) {
-      if (err.message === "TEMPLATE_FILE_NO_EXIST") {
-        res.json(new ErrorResponse("TEMPLATE_FILE_NO_EXIST", 501));
-      } else if (err.message === "PYTHON_RUN_ERROR") {
+      if (err.message === "PYTHON_RUN_ERROR") {
         res.json(new ErrorResponse("PYTHON_RUN_ERROR", 501));
       } else if (err.message === "EXPORT_FILE_FAIL") {
         res.json(new ErrorResponse("EXPORT_FILE_FAIL", 501));

@@ -62,13 +62,18 @@ export class ImageComposeService extends BaseService {
         args: [...pictureFilePathArray]
       };
 
-      let pythonCodePath: string = `/tmp/imagecomposecode_${pythonCodeId}.py`;
+      let pythonCodePath: string;
+      if (pythonCodeId === undefined) {
+        pythonCodePath = ApplicationContext.getOriginImageComposeCodeLocation();
+      } else {
+        pythonCodePath = `/tmp/imagecomposecode_${pythonCodeId}.py`;
+      }
 
       let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
 
       let exportPicturePath: string = `/tmp/exportNewPicture_${nowTimeStamp}.jp2`;
       pythonShell.run(pythonCodePath, options,  (err: Error) => {
-        if (err){
+        if (err) {
           reject(new Error("PYTHON_RUN_ERROR"));
         } else {
           resolve(exportPicturePath);

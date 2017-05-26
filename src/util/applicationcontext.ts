@@ -77,11 +77,19 @@ export class ApplicationContext {
   }
 
   /**
-   * 返回图片融合python代码的位置
+   * 返回图片融合python模版代码的位置
    */
   static getImageComposeCodeLocation(): string {
     const imageComposeCodeLocation: string = require(ApplicationContext.projectConfigPath())["imageCompose"]["pythonCodeLocation"];
     return imageComposeCodeLocation;
+  }
+
+  /**
+   * 返回图片融合python代码（固定算法）的位置
+   */
+  static getOriginImageComposeCodeLocation(): string {
+    const originImageComposeCodeLocation: string = require(ApplicationContext.projectConfigPath())["imageCompose"]["originPythonCodeLocation"];
+    return originImageComposeCodeLocation;
   }
 
   /**
@@ -141,6 +149,7 @@ export class ApplicationContext {
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "originWavePictureDir");
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "pythonFilesSavingDir");
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "composeImageFilesSavingDir");
+    this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "originPythonCodeLocation");
 
     return true;
   }

@@ -87,7 +87,7 @@ export class ImageComposeController extends BaseController {
     const longitude: number = validator.toNumber(req.params["y"], "invalid longitude");
     const zoom: number = validator.toNumber(req.params["z"], "invalid zoom");
 
-    const bandArray: string [] = req.query["bands"].substring(1, req.query["bands"].length - 1).split(",");
+    const bandArray: string [] = req.query["bands"].substring(0, req.query["bands"].length).split(",");
 
     // const originPictureNameArray: string [] = req.body["originPictureNameArray"].substring(1, req.query["originPictureNameArray"].length - 1).split(",");
 

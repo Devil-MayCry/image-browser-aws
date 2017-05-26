@@ -83,9 +83,9 @@ export class ImageComposeController extends BaseController {
 
     const tempPythonCodeId: optional<string> = req.query["codeId"];
 
-    const latitude: number = validator.toNumber(req.query["x"], "invalid latitude");
-    const longitude: number = validator.toNumber(req.query["y"], "invalid longitude");
-    const zoom: number = validator.toNumber(req.query["z"], "invalid zoom");
+    const latitude: number = validator.toNumber(req.params["x"], "invalid latitude");
+    const longitude: number = validator.toNumber(req.params["y"], "invalid longitude");
+    const zoom: number = validator.toNumber(req.params["z"], "invalid zoom");
 
     const bandArray: string [] = req.query["bands"].substring(1, req.query["bands"].length - 1).split(",");
 

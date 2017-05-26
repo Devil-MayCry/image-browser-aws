@@ -8,6 +8,8 @@ cd /usr/local/image-browser-aws/
 
 npm install --registry=http://npmjs.gagogroup.cn
 
+gulp ts
+
 pm2-docker start "dist/app.js" -i 0
 
 echo "end delpoying"

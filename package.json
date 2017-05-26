@@ -30,8 +30,7 @@
     "redis": "^2.6.2",
     "request-promise": "^4.1.1",
     "sakura-node": "^2.2.1",
-    "showdown": "^1.5.1",
-    "image-browser":"^0.0.1"
+    "showdown": "^1.5.1"
   },
   "devDependencies": {
     "@types/body-parser": "0.0.33",

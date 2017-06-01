@@ -87,7 +87,7 @@ export class ImageComposeService extends BaseService {
     let originWaveImagePathArray: string[] = [];
     let originImageDir = ApplicationContext.getOriginWaveImageDir();
     for (let eachBand of bandArray) {
-      let imagePath: string = `${originImageDir}/${year}/${month}/${day}/${eachBand}/${z}/${x}/${y}.tiff`;
+      let imagePath: string = `${originImageDir}${year}/${month}/${day}/${eachBand}/${z}/${x}/${y}.tiff`;
       originWaveImagePathArray.push(imagePath);
     }
     return originWaveImagePathArray;

@@ -5,7 +5,8 @@
   },
   "imageCompose": {
     "pythonCodeLocation": "filetemplate/imagecompose/reTif.py",
-    "originWaveImageDir": "/home/ec2-user/s3-sentinel-2/tiles/",
+    "originPythonCodeLocation": "filetemplate/function_onetif.py",
+    "originWaveImageDir": "/tmp/",
     "pythonFilesSavingDir": "/home/ec2-user/client-python-code/",
     "composeImageFilesSavingDir": "/home/ec2-user/client-python-code/"
   }

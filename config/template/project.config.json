@@ -5,7 +5,7 @@
   },
   "imageCompose": {
     "pythonCodeLocation": "filetemplate/imagecompose/reTif.py",
-    "originPythonCodeLocation": "testdata/pythoncode/template.py",
+    "originPythonCodeLocation": "filetemplate/function_onetif.py",
     "originWaveImageDir": "/mountdata/s3-gagobucket/tiles/",
     "pythonFilesSavingDir": "/home/ec2-user/client-python-code/",
     "composeImageFilesSavingDir": "/home/ec2-user/client-python-code/"

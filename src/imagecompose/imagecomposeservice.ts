@@ -5,6 +5,7 @@ import *as fs from "fs";
 import * as child_process from "child_process";
 
 import * as pythonShell from "python-shell";
+import * as async from "async";
 
 import {DateUtil} from "sakura-node";
 
@@ -42,6 +43,25 @@ export class ImageComposeService extends BaseService {
               resolve(nowTimeStamp);
             }
           });
+        }
+      });
+    });
+  }
+
+  static async checkFileExist(imageFilePathArray: string[]): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      async.map(imageFilePathArray, (file, done) => {
+        fs.stat(file, (err, stats) => {
+          if (stats) {
+            done();
+          } else {
+            done(err);
+          }
+        });
+      }, (err: Error, results: any) => {
+        if (err) reject(new Error ("IMAGE_FILE_NO_EXIST"));
+        else {
+          resolve(true);
         }
       });
     });

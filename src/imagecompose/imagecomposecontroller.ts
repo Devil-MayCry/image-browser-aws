@@ -103,16 +103,22 @@ export class ImageComposeController extends BaseController {
       // Use the gegograph info to get the tiles name. The tiles is sliced and saved in AWS.
       let originPictureFilePathArray: string[] = ImageComposeService.getOriginWaveImagePaths_(year, month, day, x, y, z, bandArray);
 
+      await ImageComposeService.checkFileExist(originPictureFilePathArray);
+
       // Use the origin picture and new script to make new picture, return to front
       let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
+
       res.sendFile(exportPictureFilePath);
+
       //  res.sendFile(path.resolve(`${__dirname}/../../testdata/sentinel/fake.png`));
     } catch (err) {
       if (err.message === "PYTHON_RUN_ERROR") {
         res.json(new ErrorResponse("PYTHON_RUN_ERROR", 501));
       } else if (err.message === "EXPORT_FILE_FAIL") {
         res.json(new ErrorResponse("EXPORT_FILE_FAIL", 501));
-      }else {
+      } else if (err.message === "IMAGE_FILE_NO_EXIST") {
+        res.json(new ErrorResponse("IMAGE_FILE_NO_EXIST", 501));
+      } else {
         next(err);
       }
     }

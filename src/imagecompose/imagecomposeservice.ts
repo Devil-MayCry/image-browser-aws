@@ -51,6 +51,7 @@ export class ImageComposeService extends BaseService {
   static async checkFileExist(imageFilePathArray: string[]): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       async.map(imageFilePathArray, (file, done) => {
+        console.log(file);
         fs.stat(file, (err, stats) => {
           if (stats) {
             done();
@@ -86,6 +87,7 @@ export class ImageComposeService extends BaseService {
       } else {
         pythonCodePath = `/tmp/imagecomposecode_${pythonCodeId}.py`;
       }
+        console.log(pythonCodePath);
 
       let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
 

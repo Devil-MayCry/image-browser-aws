@@ -51,15 +51,10 @@ export class ImageComposeService extends BaseService {
   static async checkFileExist(imageFilePathArray: string[]): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       async.map(imageFilePathArray, (file, done) => {
-        console.log(file);
         fs.stat(file, (err, stats) => {
           if (stats) {
-            console.log("exist");
-            console.log(stats);
             done();
           } else {
-            console.log("no exist");
-            console.log(err);
             done(err);
           }
         });

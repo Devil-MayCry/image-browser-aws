@@ -103,8 +103,8 @@ export class ApplicationContext {
   /**
    * 返回图片融合python代码的位置
    */
-  static getOriginWavePictureLocation(): string {
-    const originWavePictureDir: string = require(ApplicationContext.projectConfigPath())["imageCompose"]["originWavePictureDir"];
+  static getOriginWaveImageDir(): string {
+    const originWavePictureDir: string = require(ApplicationContext.projectConfigPath())["imageCompose"]["originWaveImageDir"];
     return originWavePictureDir;
   }
 
@@ -146,7 +146,7 @@ export class ApplicationContext {
 
     this.assertJsonHasOwnProperty_(this.configJson_, "imageCompose");
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "pythonCodeLocation");
-    this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "originWavePictureDir");
+    this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "originWaveImageDir");
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "pythonFilesSavingDir");
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "composeImageFilesSavingDir");
     this.assertJsonHasOwnProperty_(this.configJson_["imageCompose"], "originPythonCodeLocation");

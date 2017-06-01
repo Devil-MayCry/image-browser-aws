@@ -83,13 +83,15 @@ export class ImageComposeController extends BaseController {
 
     const tempPythonCodeId: optional<string> = req.query["codeId"];
 
-    const latitude: number = validator.toNumber(req.params["x"], "invalid latitude");
-    const longitude: number = validator.toNumber(req.params["y"], "invalid longitude");
-    const zoom: number = validator.toNumber(req.params["z"], "invalid zoom");
+    const year: number = validator.toNumber(req.params["year"], "invalid year");
+    const month: number = validator.toNumber(req.params["month"], "invalid month");
+    const day: number = validator.toNumber(req.params["day"], "invalid day");
+
+    const x: number = validator.toNumber(req.params["x"], "invalid latitude");
+    const y: number = validator.toNumber(req.params["y"], "invalid longitude");
+    const z: number = validator.toNumber(req.params["z"], "invalid zoom");
 
     const bandArray: string [] = req.query["bands"].substring(0, req.query["bands"].length).split(",");
-
-    // const originPictureNameArray: string [] = req.body["originPictureNameArray"].substring(1, req.query["originPictureNameArray"].length - 1).split(",");
 
     if (validator.hasErrors()) {
       res.json(new BadRequestResponse(validator.errors));
@@ -99,12 +101,12 @@ export class ImageComposeController extends BaseController {
     try {
 
       // Use the gegograph info to get the tiles name. The tiles is sliced and saved in AWS.
-      // let originPictureFilePathArray: string[] = await ImageComposeService.getOriginWavePictureLocation(latitude, longitude, zoom, bandArray);
+      let originPictureFilePathArray: string[] = ImageComposeService.getOriginWaveImagePaths_(year, month, day, x, y, z, bandArray);
 
       // Use the origin picture and new script to make new picture, return to front
-      // let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
-      // res.sendFile(exportPictureFilePath);
-      res.sendFile(path.resolve(`${__dirname}/../../testdata/sentinel/fake.png`));
+      let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
+      res.sendFile(exportPictureFilePath);
+      //  res.sendFile(path.resolve(`${__dirname}/../../testdata/sentinel/fake.png`));
     } catch (err) {
       if (err.message === "PYTHON_RUN_ERROR") {
         res.json(new ErrorResponse("PYTHON_RUN_ERROR", 501));

@@ -10,7 +10,7 @@ def merge_tif(band_R_tif,band_G_tif,band_B_tif,output_filename):
     :param band_R_tif: 最上层tif图像的绝对路径，e.g.('/Users/luqikun/Documents/input1.tif')
     :param band_G_tif: 中间层tif图像的绝对路径,e.g.('/Users/luqikun/Documents/input2.tif')
     :param band_B_tif: 最下层tif图像的绝对路径,e.g.('/Users/luqikun/Documents/input3.tif')
-    :param output_filename: 波段融合之后得到的tif图像的绝对路径，e.g.('/Users/luqikun/Documents/output.tif')
+    :param output_filename: 波段融合之后得到的tif图像的绝对路径，e.g.('/Users/luqikun/Documents/output.png')
     :return:
     '''
 

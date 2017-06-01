@@ -2,6 +2,8 @@
 // Use of this source code is governed a license that can be found in the LICENSE file.
 
 import *as fs from "fs";
+import * as child_process from "child_process";
+
 import * as pythonShell from "python-shell";
 
 import {DateUtil} from "sakura-node";
@@ -58,10 +60,6 @@ export class ImageComposeService extends BaseService {
   static async calcualteAndExportNewPicByPython(pythonCodeId: string,
                                                 pictureFilePathArray: string[]): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      let options: json = {
-        args: [...pictureFilePathArray]
-      };
-
       let pythonCodePath: string;
       if (pythonCodeId === undefined) {
         pythonCodePath = ApplicationContext.getOriginImageComposeCodeLocation();
@@ -71,19 +69,28 @@ export class ImageComposeService extends BaseService {
 
       let nowTimeStamp: timestamp = DateUtil.millisecondToTimestamp(new Date().getTime());
 
-      let exportPicturePath: string = `/tmp/exportNewPicture_${nowTimeStamp}.jp2`;
-      pythonShell.run(pythonCodePath, options,  (err: Error) => {
+      let exportPicturePath: string = `/tmp/exportNewPicture_${nowTimeStamp}.png`;
+
+      let  process: child_process.ChildProcess = child_process.spawn("/usr/miniconda3/bin/python", [...pictureFilePathArray, exportPicturePath]);
+      process.stderr.on("data", (err) => {
         if (err) {
           reject(new Error("PYTHON_RUN_ERROR"));
-        } else {
-          resolve(exportPicturePath);
         }
+      });
+      process.on("close", (code) => {
+        resolve(exportPicturePath);
       });
     });
   }
 
-  static async getOriginWavePictureLocation(x: number, y: number, z: number, bandArray: string[]): Promise<string[]> {
-    return [];
+  static getOriginWaveImagePaths_(year: number, month: number, day: number, x: number, y: number, z: number, bandArray: string[]): string[] {
+    let originWaveImagePathArray: string[] = [];
+    let originImageDir = ApplicationContext.getOriginWaveImageDir();
+    for (let eachBand of bandArray) {
+      let imagePath: string = `${originImageDir}/${year}/${month}/${day}/${eachBand}/${z}/${x}/${y}.tiff`;
+      originWaveImagePathArray.push(imagePath);
+    }
+    return originWaveImagePathArray;
   }
 
   static async saveClientOwnPythonCode(clientOwnPythonCodePart: string, fileName: string): Promise<void> {

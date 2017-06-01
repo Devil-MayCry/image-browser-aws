@@ -1,4 +1,5 @@
 FORMAT: 1A
+HOST: http://imagebrowser.gagogroup.cn/api/beta
 # Image Compose
 动态合成图片模块
 
@@ -29,16 +30,19 @@ FORMAT: 1A
 + Response 200 (application/json)
 
 
-## 根据用户所选波段和自定义的代码生产图片  [/image/calculate_by_dynamic_code/{z}/{x}/{y}{?x,y,z,band,codeId}]
+## 根据用户所选波段和自定义的代码生产图片  [/image/calculate_by_dynamic_code/{year}/{month}/{day}/{z}/{x}/{y}{?bands,codeId}]
 
 ### 请求合成图片 [GET] 
 用户提交需要生产的瓦片的x,y,z值，以及算法代码id，和运算的波段，返回得到生产好的图片
 
  + Parameters
+     + year: 22,           -  请求瓦片的 year 值
+     + month: 32,          -  请求瓦片的 month 值
+     + day: 4,             -  请求瓦片的 day 值
      + x: 22,              -  请求瓦片的 x 值
-     + y: 32,              -  请求瓦片的 x 值
-     + z: 4,               -  请求瓦片的 x 值
-     + band: [B01, B02, B03]      -  参与运算的波段
+     + y: 32,              -  请求瓦片的 y 值
+     + z: 4,               -  请求瓦片的 z 值
+     + bands: B01, B02, B03     -  参与运算的波段
      + codeId: 123123123       -  运算的codeid
 
 + Response 200 (application/json)

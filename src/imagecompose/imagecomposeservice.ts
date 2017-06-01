@@ -71,7 +71,7 @@ export class ImageComposeService extends BaseService {
 
       let exportPicturePath: string = `/tmp/exportNewPicture_${nowTimeStamp}.png`;
 
-      let  process: child_process.ChildProcess = child_process.spawn("/usr/miniconda3/bin/python", [...pictureFilePathArray, exportPicturePath]);
+      let  process: child_process.ChildProcess = child_process.spawn("/root/miniconda3/bin/python", [pythonCodePath, ...pictureFilePathArray, exportPicturePath]);
       process.stderr.on("data", (err) => {
         if (err) {
           reject(new Error("PYTHON_RUN_ERROR"));

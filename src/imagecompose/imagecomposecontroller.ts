@@ -81,7 +81,7 @@ export class ImageComposeController extends BaseController {
   static async getComposeMapImage(req: Request, res: Response, next: NextFunction): Promise<void> {
     let validator: Validator = new Validator();
 
-    const tempPythonCodeId: optional<string> = req.query["codeId"];
+    const tempPythonCodeId: number = validator.toNumber(req.query["codeId"]);
 
     const year: number = validator.toNumber(req.params["year"], "invalid year");
     const month: number = validator.toNumber(req.params["month"], "invalid month");

@@ -77,11 +77,11 @@ export class ImageComposeService extends BaseService {
    *
    * @memberOf ImageComposeService
    */
-  static async calcualteAndExportNewPicByPython(pythonCodeId: string,
+  static async calcualteAndExportNewPicByPython(pythonCodeId: number,
                                                 pictureFilePathArray: string[]): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       let pythonCodePath: string;
-      if (pythonCodeId === undefined) {
+      if (isNaN(pythonCodeId)) {
         pythonCodePath = ApplicationContext.getOriginImageComposeCodeLocation();
       } else {
         pythonCodePath = `/tmp/imagecomposecode_${pythonCodeId}.py`;

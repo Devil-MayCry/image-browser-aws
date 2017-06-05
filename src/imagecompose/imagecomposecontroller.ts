@@ -2,6 +2,7 @@
 // Use of this source code is governed a license that can be found in the LICENSE file.
 import * as multer from "multer";
 import * as path from "path";
+import *as fs from "fs";
 
 import {Validator, BadRequestResponse, SuccessResponse, ErrorResponse, DateUtil} from "sakura-node";
 
@@ -109,6 +110,66 @@ export class ImageComposeController extends BaseController {
       let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
 
       res.sendFile(exportPictureFilePath);
+
+      //  res.sendFile(path.resolve(`${__dirname}/../../testdata/sentinel/fake.png`));
+    } catch (err) {
+      if (err.message === "PYTHON_RUN_ERROR") {
+        res.json(new ErrorResponse("PYTHON_RUN_ERROR", 501));
+      } else if (err.message === "EXPORT_FILE_FAIL") {
+        res.json(new ErrorResponse("EXPORT_FILE_FAIL", 501));
+      } else if (err.message === "IMAGE_FILE_NO_EXIST") {
+        res.json(new ErrorResponse("IMAGE_FILE_NO_EXIST", 501));
+      } else {
+        next(err);
+      }
+    }
+  }
+
+  /**
+   * get the first image of giving time period and z,x,y
+   *
+   * @static
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   * @returns {Promise<void>}
+   *
+   * @memberOf ImageComposeController
+   */
+  static async getComposeMapImageWithPeriod(req: Request, res: Response, next: NextFunction): Promise<void> {
+    let validator: Validator = new Validator();
+
+    const tempPythonCodeId: number = req.query["codeId"];
+
+    const x: number = validator.toNumber(req.params["x"], "invalid latitude");
+    const y: number = validator.toNumber(req.params["y"], "invalid longitude");
+    const z: number = validator.toNumber(req.params["z"], "invalid zoom");
+
+    const fromDate: Date = validator.toDate(req.query["from_date"]);
+    const toDate: Date = validator.toDate(req.query["to_date"]);
+
+
+    const bandArray: string [] = req.query["bands"].substring(0, req.query["bands"].length).split(",");
+
+    if (validator.hasErrors()) {
+      res.json(new BadRequestResponse(validator.errors));
+      return;
+    }
+
+    try {
+
+      // Use the gegograph info to get the tiles name. The tiles is sliced and saved in AWS.
+      let originPictureFilePathArray: string[] = ImageComposeService.getOriginWaveImagePathsWithPeriod_(x, y, z, fromDate, toDate, bandArray);
+
+      // Use the origin picture and new script to make new picture, return to front
+      let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);
+
+      res.sendFile(exportPictureFilePath, (err: Error) => {
+        if (!err) {
+          fs.unlink(exportPictureFilePath, () => {
+          });
+        }
+      });
 
       //  res.sendFile(path.resolve(`${__dirname}/../../testdata/sentinel/fake.png`));
     } catch (err) {

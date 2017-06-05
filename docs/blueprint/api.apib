@@ -30,23 +30,57 @@ HOST: http://imagebrowser.gagogroup.cn/api/beta
 + Response 200 (application/json)
 
 
-## 根据用户所选波段和自定义的代码生产图片  [/image/calculate_by_dynamic_code/{year}/{month}/{day}/{z}/{x}/{y}{?bands,codeId}]
+## 根据用户所选波段和自定义的代码生产图片 Deprecated   [/image/calculate_by_dynamic_code/{year}/{month}/{day}/{z}/{x}/{y}{?bands,codeId}]
+
+推荐使用时间段接口
+
+### 请求合成图片 [GET] 
+用户提交需要生产的瓦片的x,y,z值，以及算法代码id，和运算的波段，返回得到生产好的图片
+只返回用户指定日期当天的图片
+
+ + Parameters
+     + year: 22           -  请求瓦片的 year 值
+     + month: 32          -  请求瓦片的 month 值
+     + day: 4             -  请求瓦片的 day 值
+     + x: 22              -  请求瓦片的 x 值
+     + y: 32              -  请求瓦片的 y 值
+     + z: 4               -  请求瓦片的 z 值
+     + bands: B01, B02, B03  (string)   -  参与运算的波段
+     + codeId: 123123123   (number)     -  运算的codeid
+
++ Response 200 (application/json)
+
+
+## 根据用户所选波段和自定义的代码生产图片 --时间段  [/image/calculate_by_dynamic_code_with_Period/{z}/{x}/{y}{?bands,codeId,from_date,to_date}]
 
 ### 请求合成图片 [GET] 
 用户提交需要生产的瓦片的x,y,z值，以及算法代码id，和运算的波段，返回得到生产好的图片
 
+返回用户指定时间段内，最早的图片
+
+如没有图片，返回501
+
  + Parameters
-     + year: 22,           -  请求瓦片的 year 值
-     + month: 32,          -  请求瓦片的 month 值
-     + day: 4,             -  请求瓦片的 day 值
-     + x: 22,              -  请求瓦片的 x 值
-     + y: 32,              -  请求瓦片的 y 值
-     + z: 4,               -  请求瓦片的 z 值
-     + bands: B01, B02, B03     -  参与运算的波段
-     + codeId: 123123123       -  运算的codeid
+     + x: 22              -  请求瓦片的 x 值
+     + y: 32              -  请求瓦片的 y 值
+     + z: 4               -  请求瓦片的 z 值
+     + from_date: `2016-01-01` (date)   - 起始日期
+     + to_date: `2017-02-01` (date)     - 截止日期
+     + bands: B01, B02, B03  (string)   -  参与运算的波段
+     + codeId: 123123123   (number)     -  运算的codeid
 
 + Response 200 (application/json)
 
++ Response 501 (application/json)
+
+    + Body
+
+            {
+              "error": {
+                "code": 501,
+                "message": "IMAGE_FILE_NO_EXIST"
+              }
+            }
 
 ## 保存用户自定义代码  [/image/save_code]
 

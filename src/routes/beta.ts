@@ -42,6 +42,9 @@ betaRouter.use(haltOnTimedout);
 // -------------------------------------------------------------------------
 
 betaRouter.get("/image/calculate_by_dynamic_code/:year/:month/:day/:z/:x/:y", ImageComposeController.getComposeMapImage);
+
+betaRouter.get("/image/calculate_by_dynamic_code_with_Period/:z/:x/:y", ImageComposeController.getComposeMapImageWithPeriod);
+
 betaRouter.post("/image/upload_dynamic_code_temp", ImageComposeController.addImageComposeCodeFromClient);
 betaRouter.post("/image/save_code", ImageComposeController.saveClientOwnPythonCode);
 betaRouter.post("/image/saving_compose_picture", ImageComposeController.uploadComposeImageToSynchronizeToAzure);

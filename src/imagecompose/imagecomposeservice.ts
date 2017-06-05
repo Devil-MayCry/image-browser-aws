@@ -113,6 +113,31 @@ export class ImageComposeService extends BaseService {
     return originWaveImagePathArray;
   }
 
+  static async getOriginWaveImagePathsWithPeriod_(x: number, y: number, z: number, fromDate: Date, toDate: Date, bandArray: string[]): string[] {
+    let originImageDir = ApplicationContext.getOriginWaveImageDir();
+
+
+    for (let eachDate = new Date(fromDate); eachDate <= toDate; eachDate.setDate(eachDate.getDate() + 1)) {
+      let year: number = eachDate.getFullYear();
+      let month: number = eachDate.getMonth();
+      let day: number = eachDate.getDate();
+
+      let originWaveImagePathArray: string[] = [];
+
+      for (let eachBand of bandArray) {
+        let imagePath: string = `${originImageDir}${year}/${month}/${day}/${eachBand}/${z}/${x}/${y}.tiff`;
+        originWaveImagePathArray.push(imagePath);
+      }
+      try {
+        await ImageComposeService.checkFileExist(originWaveImagePathArray);
+        return originWaveImagePathArray;
+      } catch (err) {
+        continue;
+      }
+    }
+    throw (new Error ("IMAGE_FILE_NO_EXIST"));
+  }
+
   static async saveClientOwnPythonCode(clientOwnPythonCodePart: string, fileName: string): Promise<void> {
 
     // Get the image compose code template

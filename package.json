@@ -32,12 +32,7 @@
     "redis": "^2.6.2",
     "request-promise": "^4.1.1",
     "sakura-node": "^2.2.1",
-    "showdown": "^1.5.1",
-    "gulp": "^3.9.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "^7.0.1",
-    "gulp-typescript": "^3.0.2"
+    "showdown": "^1.5.1"
   },
   "devDependencies": {
     "@types/body-parser": "0.0.33",
@@ -56,6 +51,11 @@
     "@types/winston": "0.0.28",
     "@types/showdown": "^1.4.31",
     "@types/pg": "^6.1.33",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^7.0.1",
+    "gulp-typescript": "^3.0.2",
     "aglio": "^2.3.0",
     "chai": "^3.5.0",
     "child_process": "^1.0.2",

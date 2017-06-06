@@ -113,19 +113,20 @@ export class ImageComposeService extends BaseService {
     return originWaveImagePathArray;
   }
 
-  static async getOriginWaveImagePathsWithPeriod_(x: number, y: number, z: number, fromDate: Date, toDate: Date, bandArray: string[]): string[] {
+  static async getOriginWaveImagePathsWithPeriod_(x: number, y: number, z: number, fromDate: Date, toDate: Date, bandArray: string[]): Promise<string[]> {
     let originImageDir = ApplicationContext.getOriginWaveImageDir();
 
 
     for (let eachDate = new Date(fromDate); eachDate <= toDate; eachDate.setDate(eachDate.getDate() + 1)) {
       let year: number = eachDate.getFullYear();
-      let month: number = eachDate.getMonth();
+      let month: number = eachDate.getMonth() + 1;
       let day: number = eachDate.getDate();
 
       let originWaveImagePathArray: string[] = [];
 
       for (let eachBand of bandArray) {
         let imagePath: string = `${originImageDir}${year}/${month}/${day}/${eachBand}/${z}/${x}/${y}.tiff`;
+        console.log(imagePath);
         originWaveImagePathArray.push(imagePath);
       }
       try {

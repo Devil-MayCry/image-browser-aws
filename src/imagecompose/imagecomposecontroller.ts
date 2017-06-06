@@ -159,7 +159,7 @@ export class ImageComposeController extends BaseController {
     try {
 
       // Use the gegograph info to get the tiles name. The tiles is sliced and saved in AWS.
-      let originPictureFilePathArray: string[] = ImageComposeService.getOriginWaveImagePathsWithPeriod_(x, y, z, fromDate, toDate, bandArray);
+      let originPictureFilePathArray: string[] = await ImageComposeService.getOriginWaveImagePathsWithPeriod_(x, y, z, fromDate, toDate, bandArray);
 
       // Use the origin picture and new script to make new picture, return to front
       let exportPictureFilePath: string = await ImageComposeService.calcualteAndExportNewPicByPython(tempPythonCodeId, originPictureFilePathArray);

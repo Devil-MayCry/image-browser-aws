@@ -126,7 +126,6 @@ export class ImageComposeService extends BaseService {
 
       for (let eachBand of bandArray) {
         let imagePath: string = `${originImageDir}${year}/${month}/${day}/${eachBand}/${z}/${x}/${y}.tiff`;
-        console.log(imagePath);
         originWaveImagePathArray.push(imagePath);
       }
       try {

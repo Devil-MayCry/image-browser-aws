@@ -48,7 +48,7 @@ class Shit(object):
             self.x_size,
             self.y_size,
             4,
-            gdal.GDT_UInt16
+            gdal.GDT_Byte
         )
 
         b01 = self.read_as_array(self.ds01)
@@ -76,13 +76,13 @@ class Shit(object):
         return mask
 
     def idiot_stretch(self, arr, a, b):
-        return (a * arr + b).astype('uint16')
+        return (a * arr + b).astype('uint8')
 
     def apply_mask(self, arr, mask):
         return np.choose(mask, (np.zeros([self.x_size, self.y_size]), arr))
 
 
-sc = ShitConfig(a=0.0219, b=-1.3)
+sc = ShitConfig(a=0.03, b=-1)
 
 shit = Shit(*sys.argv[1:4])
 shit.render_to_png(sys.argv[4], sc)

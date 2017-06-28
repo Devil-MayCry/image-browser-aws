@@ -41,12 +41,9 @@ docker pull huteng/cent7:gdal
 docker pull huteng/cent7:gdal 
 获取镜像
 
-redis也采用了镜像方式启动
-docker pull redis
-
 启动时将工程挂载进镜像部署
 
-可以运行bin/start_docker_service.sh脚本
+运行bin/start_docker_service.sh脚本
 
 # BUILD API DOC
 

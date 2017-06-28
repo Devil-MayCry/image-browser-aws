@@ -1,4 +1,4 @@
 src/**/*.ts linguist-language=typescript
-dist/**/*.ts linguist-language=javascript
+dist/**/*.ts linguist-language=typescript
 *.py linguist-language=typescript
 *.html linguist-language=typescript
